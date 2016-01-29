@@ -3,7 +3,7 @@ package ca.bcit.comp2526.a1b;
 /**
  * UserInterface.
  * 
- * @author Armin T.  A00942927  
+ * @author Armin T. - A00942927  
  * @version v1.0  Jan 19, 2016
  */
 public interface UserInterface {

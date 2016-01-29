@@ -1,9 +1,10 @@
-package ca.bcit.comp2526.a1b;
+package ca.bcit.comp2526.a1c.a1b;
 
 /**
  * Person stores a name and phone number.
- * @author Armin T. - A00942927
- * @version v1.0 Jan 18, 2016
+ * 
+ * @author your name here
+ * @version
  */
 public class Person {
     private final String name;
@@ -21,7 +22,7 @@ public class Person {
 
     /**
      * Returns name as a String.
-     * @return WHAT DOES THIS RETURN? - a String, Person's name.
+     * @return WHAT DOES THIS RETURN?
      */
     public String getName() {
         return (name);
@@ -29,7 +30,7 @@ public class Person {
 
     /**
      * Returns phone number as a String.
-     * @return WHAT DOES THIS RETURN? - a String, Person's phone.
+     * @return WHAT DOES THIS RETURN?
      */
     public String getPhoneNumber() {
         return (phone);
