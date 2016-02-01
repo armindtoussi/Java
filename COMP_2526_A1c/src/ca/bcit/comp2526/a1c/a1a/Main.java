@@ -3,14 +3,26 @@ package ca.bcit.comp2526.a1c.a1a;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
+import java.awt.TextField;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Scanner;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.BevelBorder;
 
 /**
  * Main.
@@ -19,12 +31,17 @@ import javax.swing.JPanel;
  * @version
  */
 public class Main {
+    
     private String[] database;
     Scanner input;
 
     public Main() {
         database = new String[0];
         input = new Scanner(System.in);
+    }
+    
+    public String[] getDatabase() {
+        return database;
     }
 
     public void add(final String name) {
@@ -39,7 +56,7 @@ public class Main {
 
         for (int pos = 0; pos < database.length; pos++) {
             Scanner extract = new Scanner(database[pos]);
-            name2 = extract.next();
+            name2 = extract.nextLine();
 
             if (name.compareToIgnoreCase(name2) == 0) {
                 return pos;
@@ -187,37 +204,53 @@ public class Main {
 
 @SuppressWarnings("serial")
 class GUI extends JFrame {
-    private Main database;
-    private int  choice;
     
-    private JButton button1;
-    private JButton button2;
-    private JButton button3;
-    private JButton button4;
+    private Main    database;
+    
+    private int     choice;
+    private JFrame  frame;
+    private JPanel  panel;
+    private JPanel  buttPanel;
+    private JPanel  displayPanel;
+    
+    private JLabel  displayLabel;
+    private JLabel  mainLabel;
+
+    
+    private JButton buttonOne;
+    private JButton buttonTwo;
+    private JButton buttonThree;
+    private JButton buttonFour;
+    
+    private StringBuilder sb;
     
     public GUI() {
+        frame = new JFrame("Address Book");
         
-        setSize(400, 300);
-        setVisible(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainPanel();
+        
+        frame.add(panel);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(400, 230);
+        frame.setVisible(true);
+        
+        
         
     }
     
     public void mainPanel() {
-        JPanel panel = new JPanel();
-        panel.setLayout(new BorderLayout());
+        panel        = new JPanel();
+        panel.setBackground(Color.LIGHT_GRAY);
+        mainLabel = new JLabel("Welcome to your address book.");
+        panel.add(mainLabel);
         
+        //run methods to create components
+        buttonPanel();
         
-        button1 = new JButton("button 1");
-        button2 = new JButton("button 2");
-        button3 = new JButton("button 3");
-        button4 = new JButton("button 4");
-        panel.add(button1, BorderLayout.NORTH);
-        panel.add(button2, BorderLayout.WEST);
-        panel.add(button3, BorderLayout.EAST);
-        panel.add(button4, BorderLayout.SOUTH);
+        mainDisplay();
         
-        
+        panel.add(displayPanel);
+        panel.add(buttPanel);
     }
     
     public void display(String[] people) {
@@ -227,6 +260,22 @@ class GUI extends JFrame {
             
             //display persons to panel - to do 
         }
+    }
+    
+    public void displayHeader() {
+
+        sb = new StringBuilder();
+        
+        String head1 = "Name";
+        String head2 = "Phone";
+        
+        sb.append("<html>");
+        sb.append("<table border=0>");
+        sb.append("<thead>");
+        sb.append("<tr>");
+        sb.append("<th align='left'>" + head1 + "</th>");
+        sb.append("<th align='right'>" + head2 + "</th>");
+        sb.append("</thead>");
     }
     
     public String readName() {
@@ -267,13 +316,13 @@ class GUI extends JFrame {
         
         switch (choice) {
         case 1: 
-            addPerson();
+           // addPerson();
             break;
         case 2: 
-            deletePerson();
+            //deletePerson();
             break;
         case 3:
-            findPerson();
+            //findPerson();
             break;
         case 4: 
             displayAll();
@@ -289,30 +338,89 @@ class GUI extends JFrame {
         }
     }
 
-    private void findPerson() {
-        // TODO Auto-generated method stub
+    private void findPerson(String person) {
+        String[] people = database.getDatabase();
         
+        int pos = database.search(person);
+        System.out.println(pos);
+        displayHeader();
+        sb.append("<tr>");
+        sb.append("<tr align='left'>" + people[pos] +  "</td>");
+        sb.append("</tr>");
+        tableFooter();
     }
 
-    private void displayAll() {
-        // TODO Auto-generated method stub
-        
-    }
-
-    private void deletePerson() {
-        // TODO Auto-generated method stub
-        
-    }
-
-    private void addPerson() {
-        // TODO Auto-generated method stub
-        //need some kind of text box method to take in input 
-        //for all of the previous 4 methods.
+    private void tableFooter() {
+        sb.append("</table>");
+        sb.append("</html>");
     }
     
+    private void displayAll() {
+        displayHeader();
+        String[] people = database.getDatabase();
+        String name   = "";
+        String number = "";
+        int length    = 0;
+        
+        for(int i = 0; i < people.length; i++) {
+            length = people[i].length();
+            for(int j = 0; j < length; j++) {
+                Character character = people[i].charAt(j);
+                if(!(Character.isDigit(character))) {
+                    name += character;
+                } else {
+                    number += character;
+                }
+            }
+            sb.append("<tr>");
+            sb.append("<td align='left'> " + name + "</td>");
+            sb.append("<td align='right'> " + number + "</td>");
+            sb.append("</tr>");
+            name = "";
+            number = "";
+        }
+        
+        tableFooter();
+    
+    }
+
+    private void deletePerson(String person) {
+        System.out.println(person);
+        if(person != null && person.length() > 0) {
+            System.out.println(person);
+            database.remove(person);
+        }
+        for(int i = 0; i < database.getDatabase().length; i++) {
+            System.out.println(database.getDatabase()[i]);
+        }
+    }
+
+    private void addPerson(String person) {
+        if(person != null && person.length() > 0) {
+            database.add(person);
+        }
+    }
+    
+    private void createPerson(String name) {
+        String person = name;
+        addPerson(person);
+    }
+    
+    private String addPrompt() {
+        return "Please enter person's name and number to add:";
+    }
+   
+    
+    private String removePrompt() {
+        return "Please enter the person's name you wish to remove:";
+    }
+    
+    private String findPrompt() {
+        return "Please enter the name of the person to find:";
+    }
     
     private void displayMenu(Graphics g) {
-        
+       
         
     }
     
@@ -321,38 +429,60 @@ class GUI extends JFrame {
     }
  
     public void displayMsg(String msg) {
-        //setTitle(msg);
+        displayLabel.setText(msg);
     }
     
     public void displayErrorMsg(String msg) {
-        //show some kind of error in the main display panel
-        //most likely things like incorrect input and so on
+        displayLabel.setText(msg);
     }
     
     private void buttonPanel() {
-        //create buttons for top panel 
+        buttPanel    = new JPanel();
+        buttPanel.setPreferredSize(new Dimension(350, 40));
+        buttPanel.setBackground(Color.LIGHT_GRAY);
+        buttPanel.setBorder(BorderFactory.createEtchedBorder());
+        createDisplayButton();
+        buttPanel.add(buttonOne);
+        buttPanel.add(buttonTwo);
+        buttPanel.add(buttonThree);
+        buttPanel.add(buttonFour);
+
         
     }
     
     private void mainDisplay() {
-        //create main display Panel 
-
+        displayPanel = new JPanel();
+        displayPanel.setPreferredSize(new Dimension(350, 100));
+        displayPanel.setBackground(Color.white);
+        displayPanel.setBorder(BorderFactory.createLoweredSoftBevelBorder());
+        displayLabel = new JLabel();
+        displayLabel.setText("Please make a choice");
+        displayPanel.add(displayLabel);
+        
     } 
     
-    private void inputTextBox() {
-        //create the textbox for placement
-    }
     
     private void createDisplayButton() {
-        //create big display button
+        buttonOne   = new JButton("1.Add");
+        buttonOne.addActionListener(new ButtonListener());
+
+        buttonTwo   = new JButton("2.Remove");
+        buttonTwo.addActionListener(new ButtonListener());
+           
+        buttonThree = new JButton("3.Find");
+        buttonThree.addActionListener(new ButtonListener());
+        
+        buttonFour  = new JButton("4.Display");
+        buttonFour.addActionListener(new ButtonListener());
+       
     }
     
     
     private class KeyBoardInput extends KeyAdapter {
-     
+        private String enteredInput;
         
         public void keyTyped (KeyEvent e) {
-            
+                      
             try {
                 choice = Integer.parseInt("" + e.getKeyChar());
                 
@@ -362,8 +492,38 @@ class GUI extends JFrame {
             }
             
             evaluateChoice();
-            //calls choice thingy.
         }
+        
+    }
+
+    private class ButtonListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String  name   = "";
+          
+            if(e.getActionCommand().equalsIgnoreCase("1.Add")) {
+                name = JOptionPane.showInputDialog(addPrompt());
+                createPerson(name);
+                
+            } else if(e.getActionCommand().equalsIgnoreCase("2.Remove")) {
+                name = JOptionPane.showInputDialog(removePrompt());
+                deletePerson(name);
+                
+            
+            } else if(e.getActionCommand().equalsIgnoreCase("3.Find")) {
+                name = JOptionPane.showInputDialog(findPrompt());
+                findPerson(name);
+                displayLabel.setText(sb.toString());
+            
+            } else if(e.getActionCommand().equalsIgnoreCase("4.Display")) {
+                displayAll();
+                displayLabel.setText(sb.toString());
+            }
+            
+        }
+      
+        
     }
     
 }
