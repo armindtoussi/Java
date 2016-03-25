@@ -1,11 +1,9 @@
 package ca.bcit.comp2526.a1b;
 
-import java.util.Scanner;
-
 /**
  * Main.
- * @author your name here
- * @version
+ * @author Armin T. - A00942927
+ * @version v1.0 Jan 18, 2016 
  */
 public class Main {
     

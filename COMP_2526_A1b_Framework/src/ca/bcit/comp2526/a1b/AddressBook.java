@@ -7,11 +7,13 @@ package ca.bcit.comp2526.a1b;
  * @version v1.0  Jan 19, 2016
  */
 public class AddressBook {
+    /** database is the database of Person's. */
     private final Database database;
+    /** userInterface is a userInterface object for interaction.  */
     private final UserInterface userInterface;
 
     /**
-     * Constructor for objects of type AddressBook.
+     * <p>Constructor for objects of type AddressBook.</p>
      * 
      * @param userInterface
      *            The user interface
@@ -75,19 +77,39 @@ public class AddressBook {
         
     }
 
+    /**
+     * <p>Method remove attempts to remove a person by name.</p>
+     * @param name the name of the person to find. and remove.
+     * @return a true or false value indicating success or failure.
+     */
     private boolean remove(final String name) {
         return (database.removeByName(name) != null);
     }
 
+    /**
+     * <p>Method search, takes a name param and uses findByName 
+     *    method from database to find a person. and return it.</p>
+     * @param name a string that represents a person.
+     * @return returns a person if found.
+     */
     private Person search(final String name) {
         return (database.findByName(name));
     }
 
+    /**
+     * <p>method displayAll passes an array of Person's to 
+     *    ControlUserInterface's displayAll() method.</p>
+     */
     public void displayAll() {
         Person[] people = database.getAll();
         userInterface.displayAll(people);
     }
 
+    /**
+     * <p>Method display calls display in Console user interface
+     *    and passes a Person to it for display.</p>
+     * @param person the person to display.
+     */
     private void display(final Person person) {
         userInterface.display(person);
     }

@@ -4,15 +4,17 @@ import java.util.Scanner;
 
 /**
  * ConsoleUserInterface.
- * @author your name here
- * @version
+ * @author Armin T. - A00942927
+ * @version v1.0 Jan 18, 2016
  */
 public class ConsoleUserInterface implements UserInterface{
+    
+    /** input is a scanner for user input. */
     private final Scanner input;
-    private AddressBook addressBook;
+    //removed addressBook variable because my program doesn't use it.
 
     /**
-     * Constructor for objects of type ConsoleUserInterface.
+     * <p>Constructor for objects of type ConsoleUserInterface.</p>
      */
     public ConsoleUserInterface() {
         input = new Scanner(System.in);
@@ -45,7 +47,11 @@ public class ConsoleUserInterface implements UserInterface{
         return choice;
     }
     
-    @Override
+    /**
+     * <p>Method, display, displays the selected person.</p>
+     * @param person is the person to be displayed.
+     * @Override
+     */
     public void display(Person person) {
         System.out.printf("%-20s %-15s\n", "Name", "Phone Number");
         System.out.println("---------------------------------");
@@ -53,7 +59,12 @@ public class ConsoleUserInterface implements UserInterface{
                                            person.getPhoneNumber());
     }
 
-    @Override
+    
+    /**
+     * <p>Method displayAll displays all of the contents of the 
+     *    database.</p>
+     * @Override
+     */
     public void displayAll(Person[] people) {
         System.out.printf("%-20s %-15s\n", "Name", "Phone Number");
         System.out.println("---------------------------------");
@@ -64,7 +75,12 @@ public class ConsoleUserInterface implements UserInterface{
         
     }
 
-    @Override
+    
+    /**
+     * <p>Method readName is a method for reading in a 
+     *    person's name into the database.</p>
+     * @Override
+     */
     public String readName() {
         System.out.println("Please enter the person's first name:");
         String name = input.next();
@@ -93,7 +109,12 @@ public class ConsoleUserInterface implements UserInterface{
         return person;
     }
 
-    @Override
+    
+    /**
+     * <p>Method run is the main program control function.</p>
+     * @param book is an AddressBook object needed for the program.
+     * @Override
+     */
     public void run(AddressBook book) {
         int choice = 0;
         do {
@@ -118,12 +139,21 @@ public class ConsoleUserInterface implements UserInterface{
         } while (choice != 5);
     }
 
-    @Override
+    
+    /**
+     * <p>Displays the specified message to the user.</p>
+     * @Override
+     * @param msg is the message to be displayed.
+     */
     public void displayMsg(String msg) {
         System.out.println(msg);
     }
 
-    @Override
+    /**
+     * <p>Displays the specified error message.</p>
+     * @param msg is the specified error message passed.
+     * @Override
+     */
     public void displayErrorMsg(String msg) {
         System.out.println(msg);
     }

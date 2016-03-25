@@ -6,8 +6,8 @@ import java.util.List;
 /**
  * Database.
  * 
- * @author your name here
- * @version
+ * @author Armin T. - A00942927
+ * @version v1.0 Jan 18, 2016
  */
 public class Database {
     private List<Person> storage;
@@ -24,7 +24,8 @@ public class Database {
      * 
      * @param person
      *            A person
-     * @return WHAT DOES THIS RETURN?
+     * @return WHAT DOES THIS RETURN? 
+     *       - an int, 1 less than the storage size.
      */
     public int add(final Person person) {
         storage.add(person);
@@ -35,7 +36,7 @@ public class Database {
     /**
      * Returns something.
      * 
-     * @return WHAT DOES THIS RETURN? An array of Person objects
+     * @return WHAT DOES THIS RETURN? - An array of Person objects
      */
     public Person[] getAll() {
         final Person[] copy;
@@ -52,6 +53,7 @@ public class Database {
      * @param name
      *            A String.
      * @return WHAT DOES THIS RETURN?
+     *          - Either the person removed, or null.
      */
     public Person removeByName(final String name) {
         final Person person;
@@ -73,7 +75,8 @@ public class Database {
      * 
      * @param name
      *            A String
-     * @return WHAT DOES THIS RETURN?
+     * @return WHAT DOES THIS RETURN? - Either the person found, 
+     *      or null.
      */
     public Person findByName(final String name) {
         final Person person;
